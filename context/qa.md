@@ -1,84 +1,21 @@
-# 关键结论与常见问答
+# AI 产品经理（平台型）
 
-本文件记录历次对话中沉淀的重要决策、方向选择依据和常见概念解释，避免重复讨论。
+## Redefine Direction Choices for AI PM
+- Aligning the focus towards platform-based product management, considering the landscape of artificial intelligence.
 
----
+## Platform PM Capability Stack
+1. **Strategic Understanding**
+   - Understanding market dynamics and technology trends.
+2. **Technical Proficiency**
+   - Ability to work with AI technologies and platforms.
+3. **Cross-Functional Leadership**
+   - Leading diverse teams towards a common goal.
+4. **User-Centric Product Design**
+   - Designing products with user feedback and needs in mind.
 
-## 方向选择
+## Decision Log
+- **2026-03-21**: Pivot decision made to focus on platform-based AI solutions.
 
-### Q：A / B / C 三个方向怎么选？
-
-| 方向 | 内容 | 是否适合当前 |
-|------|------|------------|
-| **A：推理部署 / 服务化** | 把 LLM 以服务形式稳定跑起来，做 API、并发、监控、RAG | ✅ 最适合，偏工程，本科可落地项目 |
-| **B：CUDA / 算子 / 性能优化** | kernel 优化、算子融合、内存访问优化 | ⚠️ 可了解，需大量 C++ + CUDA 基础，门槛高 |
-| **C：训练框架 / 分布式训练** | 多机多卡、混合精度、分布式通信 | ❌ 6GB 显存无法做有说服力的项目，优先级最低 |
-
-**结论**：主线选 A，B 作为加分了解，C 暂时搁置。
-
----
-
-### Q：llama.cpp 自带 server vs FastAPI 包一层，有什么区别？
-
-| 方案 | 优点 | 缺点 |
-|------|------|------|
-| llama.cpp 自带 server | 上手快，性能路径纯，少一层 Python 开销 | 扩展受限（RAG、鉴权、限流、自定义日志更复杂） |
-| FastAPI 包一层 | 工程化展示完整（队列、监控、RAG、鉴权均可加） | 多一层组件，排障面更广（但这正是工程岗需要的） |
-
-**结论**：两者叠加使用，不是非此即彼：
-1. Week 2：先用 llama.cpp server 跑通可用 API（最快路径）
-2. Week 3+：加 FastAPI 网关做工程化
-
----
-
-### Q：本科学生做 LLM Infra 有没有机会？
-
-**有机会，但要聚焦 A 方向（工程化）。** 原因：
-- "纯训练岗"更倾向硕士 + 论文/竞赛，本科较难
-- "推理部署 / 平台化"是工程岗，能用项目 + 指标数据证明能力
-- 3060 6GB 完全够做推理侧实验（量化、服务化、benchmark、RAG）
-
----
-
-## 关键技术术语
-
-| 术语 | 说明 |
-|------|------|
-| **TTFT** | Time To First Token，首 token 延迟，用户感知最直接的指标 |
-| **TPOT** | Time Per Output Token，每生成一个 token 的平均时间 |
-| **吞吐（Throughput）** | tokens/s，衡量推理速度 |
-| **KV Cache** | Key-Value 缓存，减少 Attention 重复计算，节省显存/加速 decode |
-| **Prefill** | 输入 prompt 的处理阶段（计算密集） |
-| **Decode** | 逐 token 生成阶段（内存带宽密集） |
-| **GGUF** | llama.cpp 使用的量化模型格式，支持 Q4_K_M / Q5_K_M / Q8_0 等 |
-| **Q4_K_M** | 4-bit 量化（Mixed，中等精度），6GB 显存下性价比最高的选择 |
-| **RAG** | Retrieval-Augmented Generation，检索增强生成，用私有知识库辅助回答 |
-| **Embedding** | 文本向量化，RAG 的核心组件 |
-| **FAISS** | Facebook 开源的向量检索库，本地部署最省事 |
-| **OOM** | Out of Memory，显存不足崩溃，推理服务最常见故障之一 |
-| **SSE** | Server-Sent Events，流式输出协议（逐 token 推流到客户端） |
-| **OpenAI 兼容 API** | 与 OpenAI `/v1/chat/completions` 格式兼容的接口，便于对接前端/工具链 |
-
----
-
-## 项目设计决策
-
-### 仓库定位
-- 主项目仓库：`llm-infer-deploy-lab`（建议名称）
-- 定位：低显存（6GB）LLM 推理部署实验室，从本地 llama.cpp 到服务化全流程
-
-### 简历写法原则
-- 用"指标 + 动词"：例如"将并发 5 下 TTFT 从 X ms 降低至 Y ms"
-- 故障排查故事比"我做了什么"更有说服力
-- 开源 + 有 benchmark 数据 > 私有仓库 + 无数据
-
----
-
-## 历次对话决策记录
-
-| 日期 | 决策内容 |
-|------|----------|
-| 2026-03-15 | 确定主线方向 A（推理部署 / 服务化），兜底后端工程 |
-| 2026-03-15 | 确定采用 llama.cpp server + FastAPI 网关双阶段方案 |
-| 2026-03-15 | 确认 WSL2 nvidia-smi 可用，项目公开发布 |
-| 2026-03-15 | 启动 12 周计划，从 2026-03-16 开始 |
+## Glossary
+- **AI PM**: AI Product Manager
+- **Platform PM**: Platform Product Manager
