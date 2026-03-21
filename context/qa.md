@@ -1,21 +1,81 @@
-# AI 产品经理（平台型）
+# 关键结论与常见问答（AI 产品经理 · 平台型）
 
-## Redefine Direction Choices for AI PM
-- Aligning the focus towards platform-based product management, considering the landscape of artificial intelligence.
+本文件记录历次对话中沉淀的重要决策、方向选择依据和常见概念解释，避免重复讨论。
 
-## Platform PM Capability Stack
-1. **Strategic Understanding**
-   - Understanding market dynamics and technology trends.
-2. **Technical Proficiency**
-   - Ability to work with AI technologies and platforms.
-3. **Cross-Functional Leadership**
-   - Leading diverse teams towards a common goal.
-4. **User-Centric Product Design**
-   - Designing products with user feedback and needs in mind.
+---
 
-## Decision Log
-- **2026-03-21**: Pivot decision made to focus on platform-based AI solutions.
+## 方向选择（面向 AI 产品经理）
 
-## Glossary
-- **AI PM**: AI Product Manager
-- **Platform PM**: Platform Product Manager
+### Q：AI PM 的 A / B / C 三个方向怎么选？
+
+| 方向 | 内容 | 是否适合当前 |
+|------|------|------------|
+| **A：AI 应用 / Agent 产品** | 面向具体用户场景（开发、办公、教育等），核心是体验与闭环 | ✅ 用作产品1（Vibe Coding-inspired 属于开发者场景应用） |
+| **B：AI 工程化/平台产品** | 评测、可观测、成本/配额、编排、治理、Prompt/策略管理等 | ✅✅ 主攻方向（平台型 AI PM） |
+| **C：算法/训练主导型** | 训练、微调、模型结构/论文驱动 | ⚠️ 非主攻（设备与时间成本不匹配作品集最大化） |
+
+**结论（2026-03-21 起）**：主线选 **B（平台型 AI PM）**，产品落地采用：
+- **产品1（应用）**：做一个开发者工作流 AI 应用（Vibe Coding-inspired），但把 **平台能力外显**（Eval/Trace/回归）
+- **产品2（平台）**：把产品1沉淀出来的能力抽象成 **Eval/Observability 小平台**
+
+---
+
+## 平台型 AI PM 的作品集能力栈（必须覆盖）
+
+1. **Eval-first（评测优先）**
+   - 有固定用例集（30→100+）
+   - 有版本对比（v1/v2）
+   - 指标：成功率、失败类型分布、关键任务完成率
+
+2. **Observability-first（可观测优先）**
+   - Trace：request_id、阶段耗时、token 统计、错误码
+   - 指标：TTFT、tokens/s、队列等待时间（如果有队列）
+
+3. **可靠性（Reliability）**
+   - 超时、取消、重试、降级策略
+   - 并发控制/排队（避免卡死与雪崩）
+
+4. **成本与性能（Cost/Latency）**
+   - 记录配置与性能关系（ctx/batch/并发）
+   - 用数据推动取舍：质量 vs 延迟 vs 成本
+
+5. **版本化与回归（Release/Regression）**
+   - 每次改动（prompt/策略/参数）都有回归结果
+   - 形成迭代记录：为什么改、改了什么、指标变化
+
+---
+
+## 常见问答
+
+### Q：产品1先做 Vibe Coding 原型，“抄/模仿”合适吗？
+合适。价值不在 UI 原创，而在：
+- 复现开发者 coding 工作流闭环（输入→计划→生成→验证→复盘）
+- 用 Eval/Trace 把质量与可靠性做成可展示的“平台能力”
+- 这条路径最容易产出可量化作品集
+
+### Q：产品1和产品2怎么避免重复？
+- 产品1：面向用户任务闭环（开发者使用）
+- 产品2：面向“开发者/团队的质量体系”（评测、对比、追踪、报告）
+
+---
+
+## 关键术语（精简）
+| 术语 | 说明 |
+|------|------|
+| **TTFT** | 首 token 延迟 |
+| **TPOT** | 每 token 平均时间 |
+| **Throughput** | tokens/s |
+| **Trace** | 请求链路与阶段耗时记录 |
+| **Eval** | 固定用例集 + 版本对比 |
+| **OOM** | 显存不足崩溃 |
+| **SSE** | 流式输出协议 |
+
+---
+
+## 决策记录
+
+| 日期 | 决策内容 |
+|------|----------|
+| 2026-03-21 | 目标转为 AI 产品经理（平台型） |
+| 2026-03-21 | 2027-08-31 前完成 2 个产品：产品1（应用+平台能力外显）+ 产品2（平台化） |
+| 2026-03-21 | 12 周计划重排为 2026-03-23 ~ 2026-06-14，聚焦产品1交付 |
