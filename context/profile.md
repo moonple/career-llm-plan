@@ -1,11 +1,15 @@
-# Profile
+# AI产品经理（平台型）
 
-## 目标角色
-AI 产品经理（技术型/工程落地）
+## Profile
 
-## 2026-2027 里程碑
-在 2027 年暑假前完成 2 个产品：
+- **Role**: AI产品经理（平台型）
+- **Dates**: 2026-03-21 to 2027-08-31  
 
-1. 产品 #1：Vibe Coding-inspired
-2. 产品 #2：Differentiated
-
+### Products:
+1. **产品1**: 评测平台  
+   - Key Features:
+   - Metrics: 
+   
+2. **产品2**: 可观测性工具  
+   - Key Features:
+   - Metrics: 
