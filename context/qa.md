@@ -79,3 +79,77 @@
 | 2026-03-21 | 目标转为 AI 产品经理（平台型） |
 | 2026-03-21 | 2027-08-31 前完成 2 个产品：产品1（应用+平台能力外显）+ 产品2（平台化） |
 | 2026-03-21 | 12 周计划重排为 2026-03-23 ~ 2026-06-14，聚焦产品1交付 |
+
+
+
+## 2026-03-21 对话总结：AI PM 路线 + 产品1（Vibe Coding-inspired）立项
+
+### 当前时间
+- 当前日期：2026-03-21
+
+### 总目标（2026-03-21 ~ 2027-08-31）
+- 目标角色：AI 产品经理（技术型/工程落地 / 平台型倾向）
+- 2027 年暑假前完成 2 个产品：
+  - 产品 1：Vibe Coding-inspired（先模仿/复刻思路与实现）
+  - 产品 2：Differentiated（在产品 1 的基础上做差异化）
+
+### 关键决策（本次对话确认）
+1. 产品 1 先做 CLI，再升级 FastAPI：
+   - 结论：可行且推荐（先把核心能力做成可复用模块，CLI/FastAPI 只是一层入口）
+   - 迁移难度：低（新增 API 层即可，核心 `core/` 复用）
+2. 产品 1 先不接真实模型，使用 Mock 后端（选项 B）：
+   - 目的：优先做出“Vibe Coding 的产品体验”（结构化输出 + 可演示闭环），避免卡在模型/部署/网络/性能
+   - 后续：再替换 backend 接入 llama.cpp（OpenAI 兼容接口）或云 API
+3. 产品 1 需要单独建一个专用仓库做“可复跑评测/演示”的目标 repo：
+   - 新仓库名：`moonple/vibe-cli-sandbox`
+
+### 产品 1 的 MVP 定义（Vibe Coding-inspired 的可落地抽象）
+- 核心体验：输入自然语言任务，输出结构化结果：
+  - Plan（步骤拆解）
+  - Patch（MVP 先做“修改点列表”，后续升级为 unified diff）
+  - Commands（可运行的验证命令）
+  - Fallback（失败兜底/回滚/排障建议）
+- 目标：先做出可 demo、可复跑的最小闭环，而不是做 IDE 级别自动写项目
+
+### CLI 方案（已确定）
+- 命令形态（方案一）：
+  - `vibe run --repo <path> --task "<text>" --out out.md`
+  - 可选：`--json-out out.json`
+- 当前选择的 backend：mock（暂不接模型）
+
+### 计划中的仓库结构（产品1：vibe-cli-sandbox）
+建议目录结构（核心逻辑可复用，为后续 FastAPI 预留）：
+- `src/vibe_cli_sandbox/core/`：核心逻辑（schema / generate / backends）
+- `src/vibe_cli_sandbox/cli.py`：CLI 入口（只做参数解析与调用 core）
+- `docs/`：输出 schema、demo script
+- `eval/`：cases_v0、scoring（先人工评分也可）
+- `examples/`：任务输入与输出样例（用于展示）
+
+### MVP 文件清单（需要在 vibe-cli-sandbox 仓库落地）
+- `pyproject.toml`（依赖：pydantic/typer/rich，提供 `vibe` 命令）
+- `src/vibe_cli_sandbox/core/schema.py`（VibeResult 输出结构）
+- `src/vibe_cli_sandbox/core/backends/mock.py`（mock 生成）
+- `src/vibe_cli_sandbox/core/generate.py`（core 入口）
+- `src/vibe_cli_sandbox/cli.py`（CLI 命令实现）
+- `docs/output-schema.md`（输出规范）
+- `eval/cases_v0.md`、`eval/scoring.md`（评测用例与评分规则）
+- `docs/demo-script.md`（3 分钟 demo 路径）
+- `examples/task_bugfix.md`、`examples/output_bugfix.md`（示例）
+
+### 本周可执行下一步（最小闭环）
+1. 在 `moonple/vibe-cli-sandbox` 提交上述脚手架文件
+2. 本地验证：
+   - `python -m pip install -e .`
+   - `vibe run --repo . --task "Fix a bug and add tests" --out out.md --json-out out.json`
+3. 产出物：
+   - `out.md`（结构化输出）
+   - `out.json`（结构化 JSON）
+
+### 下个对话的启动方式（给 Copilot 的指令）
+请���于上述决策继续推进：
+- 先确保 `moonple/vibe-cli-sandbox` 仓库里脚手架文件齐全且可运行
+- 然后进入迭代：
+  1) 增加 repo 扫描摘要（文件树/关键文件片段作为 context）
+  2) Patch 从“修改点列表”升级为 unified diff
+  3) 增加 `eval/run_cases.py`（先 mock 打分，后接真实模型）
+  4) 预留 FastAPI 版本 `POST /generate`（复用 VibeResult）
